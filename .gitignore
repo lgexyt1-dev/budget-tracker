@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+data.json
+data.json.bak
+settings.json
+build/
+dist/
+*.spec

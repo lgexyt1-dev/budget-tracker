@@ -1,112 +1,55 @@
 VS Code içinde oluşturduğun **`README.md`** dosyasının içine hiçbir değişiklik yapmadan, direkt kopyalayıp yapıştırabileceğin tam ve eksiksiz metin aşağıdadır:
 
 ```markdown
-# Personal Budget Tracker (CLI)
+# Personal Budget Tracker
 
-A feature-packed, interactive Command-Line Interface (CLI) application built in Python for tracking personal finances, managing expense categories, persisting transaction history, and generating visual data analytics using Matplotlib.
+A desktop budget tracker built with Python, Tkinter, and Matplotlib. It stores data locally as JSON.
 
----
+## Features
 
-## Key Features
+- Record income and expenses with a category, date, and currency.
+- Review transaction history, search it, and filter by type, category, or date range.
+- Edit or delete transactions, rename expense categories, and export transactions to CSV.
+- Set monthly spending limits for categories and see spent and remaining amounts.
+- Create monthly recurring transactions. Due entries are added when the app starts; deleting a generated entry also stops its recurring schedule.
+- Review totals, charts, and month-to-date spending guidance.
+- Choose a theme, language, and display currency.
+- Keep a previous-data backup at `data.json.bak` whenever transaction data is saved; recover from it if the main JSON file is missing or invalid.
 
-- **Income & Categorical Expense Logging:** Record incomes and categorize expenses (e.g., Food, Rent, Utilities) with automatic input normalization.
-- **Dynamic Financial Reporting:** View a concise summary of total incomes, total expenses, and your current net balance.
-- **Visual Analytics (Matplotlib):**
-  - **Income vs. Expense Chart:** Interactive pie chart illustrating total balance distribution.
-  - **Category Breakdown Chart:** Visual distribution of spending across custom categories.
-- **Category Editing:** Batch update existing expense category names to correct typos or reorganize budgets without losing transaction values.
-- **Persistent Local Storage:** Automatic JSON persistence (`data.json`) ensures all financial records remain safe across app restarts.
-- **Robust Error Handling:** Integrated `try-except` validation prevents application crashes from invalid inputs.
-- **System Reset Utility:** Administrative reset option featuring confirmation safety prompts for clearing system state.
+## Money Guidance
 
----
+The planning tab uses the 50/30/20 guideline as a flexible starting point: up to 50% for needs, 30% for wants (including dining out), and 20% for savings or debt repayment. Groceries and dining out are different categories. It also reports the current month's expense-to-income ratio and gives a basic prompt based on that ratio.
 
-## Tech Stack
+These are general budgeting ideas, not individualized financial advice. The app does not recommend a fixed percentage of money for stocks; investing depends on goals, timeline, emergency savings, debts, and risk tolerance.
 
-- **Language:** Python 3.12+
-- **Data Visualization:** Matplotlib
-- **Data Persistence:** JSON
-- **Environment:** Cross-platform CLI (Windows / macOS / Linux)
+## Install And Run
 
----
+Python 3.12 or later and Matplotlib are required.
 
-## Installation & Setup
-
-1. **Clone the Repository**
-   ```bash
-   git clone [https://github.com/lgexyt1-dev/budget-tracker.git](https://github.com/lgexyt1-dev/budget-tracker.git)
-   cd budget-tracker
-
+```powershell
+python -m pip install matplotlib
+python .\budget-tracker.py
 ```
 
-2. **Install Dependencies**
-```bash
-pip install matplotlib
+## Build A Windows Executable
 
+Install PyInstaller in the same Python environment as the app, then build a single-file GUI executable:
+
+```powershell
+python -m pip install pyinstaller
+python -m PyInstaller --onefile --windowed --icon .\budget-tracker.ico --add-data ".\budget-tracker.ico;." --name BudgetTracker .\budget-tracker.py
 ```
 
+The executable will be written to `dist\BudgetTracker.exe`. Keep it in a folder where the app can write `data.json` and `settings.json`.
 
-3. **Run the Application**
-```bash
-python budget-tracker.py
+## Run Tests
 
+```powershell
+python -m unittest discover -s tests
 ```
 
+## Data And Currency
 
+`data.json` stores transactions and recurring schedules. `settings.json` stores preferences and category budgets. Existing records without currency metadata are treated as using the currency selected in settings when they are first loaded.
 
----
-
-## How to Use
-
-Launch the application and select options from the interactive terminal menu:
-
-```text
---- PERSONAL BUDGET TRACKER ---
-1. Add Income
-2. Add Expense
-3. View Financial Report
-4. View Income vs Expense Chart
-5. View Expense Breakdown by Category
-6. Edit Expense Category
-7. Exit
-8. Reset System
-
-```
-
-* **Option 1 & 2:** Enter transaction amounts and specify categories.
-* **Option 3:** Inspect total income, expenses, and net balance.
-* **Option 4 & 5:** Generate real-time Matplotlib graphical distributions.
-* **Option 6:** Rename an existing expense category across all matching historical entries.
-* **Option 7:** Exit the application safely.
-* **Option 8:** Permanently purge `data.json` and reset session variables.
-
----
-
-## Data Structure
-
-Transactions are preserved in `data.json` with the following schema:
-
-```json
-{
-    "incomes": [1500.0, 300.0],
-    "expenses": [
-        {
-            "amount": 45.5,
-            "category": "Food"
-        },
-        {
-            "amount": 120.0,
-            "category": "Utilities"
-        }
-    ]
-}
-
-```
-
-```
-
-<ElicitationsGroup message="README kaydedildikten sonraki adım:">
-  <Elicitation label="Depoyu oluşturdum ve Git komutlarını çalıştırıp projeyi gönderelim" query="README.md dosyasını kaydettim, şimdi projeyi GitHub'a pushlayalım."/>
-</ElicitationsGroup>
-
-```
+Changing the display currency does not rewrite the original transaction amounts. Converted totals use the most recently available exchange rates, so displayed conversions can change when rates refresh; the stored amount and its currency remain unchanged. Keep a separate copy of your data files for an off-device backup.
