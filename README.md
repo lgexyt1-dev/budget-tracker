@@ -1,5 +1,3 @@
-VS Code içinde oluşturduğun **`README.md`** dosyasının içine hiçbir değişiklik yapmadan, direkt kopyalayıp yapıştırabileceğin tam ve eksiksiz metin aşağıdadır:
-
 ```markdown
 # Personal Budget Tracker
 
